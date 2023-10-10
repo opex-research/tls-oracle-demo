@@ -1,0 +1,11 @@
+
+
+Goal: HTTPS connection between client and verifier to transmit the proof stuff.
+
+ToDo Proxy: 
+- Read from own local_storage
+
+ToDo Client:
+
+
+What files does the proxy need?

@@ -1,0 +1,15 @@
+[submodule "server"]
+	path = server
+	url = https://github.com/opex-research/server
+[submodule "client"]
+	path = client
+	url = https://github.com/opex-research/client
+[submodule "proxy"]
+	path = proxy
+	url = https://github.com/opex-research/proxy
+[submodule "tls-fork"]
+	path = tls-fork
+	url = https://github.com/opex-research/tls-fork
+[submodule "tls-zkp"]
+	path = tls-zkp
+	url = https://github.com/opex-research/tls-zkp
