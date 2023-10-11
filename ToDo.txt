@@ -1,11 +1,65 @@
-
-
-Goal: HTTPS connection between client and verifier to transmit the proof stuff.
-
-ToDo Proxy: 
-- Read from own local_storage
-
-ToDo Client:
-
+Goal: HTTPS connection between client and verifier to transmit the proof stuff. --> DONE
 
 What files does the proxy need?
+
+Stage 1 - Preprocess
+
+SEND: 
+    kdc_shared.json (postproxessHandler), 
+    recordtag_public_input.json (postprocessHandler)
+    recorddata_public_input.json (setupHandler),
+    kdc_public_input (json) (proof)
+
+Which function needs what?
+- postprocessHandler
+    - ReadTLSParams --> Needs kdc_shared.json, has SHTS to derive handshake encrypting key
+    - ReadTranscript (does not need any other data from the client side!)
+        - Read Raw data sent in request and received in response (ReadTransmissionBitstream, stored by proxy)
+        - Parse Client & Server Hello
+        - Set the SHTS (p.tdServer.SetCipherParameters(p.tlsParams.shts))
+        - Derive the traffic encrypting key (p.tdServer.SetCipherParameters(p.tlsParams.shts))
+            - INFO - msg, err := td.parseHandshake() --> Decrypts the handshake messages (called multiple times! each time returns different relevant value. Calls func (td *TrafficData) readRecord() internally, which decrypts)
+        - Parse Encrypted Extensions
+        - Verify the server certificate
+        - Parses the server finished message (by decrypting transcript)
+    - VerifyServerFinished --> NEEDS kdc_shared.json
+        - Takes the values from kdc_shared.json
+        - Derives the SF from the intermediate values provided by the client
+        - PROBLEM - are we actually able to disclose intermediateHashHSopad? --> YES - intermediateHashHSipad remains closed to prover --> not derivable by the verifier
+    - CreateKdcPublicInput
+        - Locally computes the missing public parameters for proof verification
+    - StoreConfirmedKdcParameters    
+        - Stores the relevant previously computed public parameters for proof verification in kdc_confirmed.json
+    - ReadRecordParams
+        - parses ciphertext and associated data - separated by sequence number
+        - TODO - why is decrypt mentioned here? "inside decrypt" in comments
+    - CheckAuthTags --> NEEDS recordtag_public_input.json (send as cannot be derived in plain)
+        - loops over all sequence numbers and verify authentication tags
+        - stores ciphertext & tag in record_confirmed.json
+
+- setupHandler
+    - GetCircuit --> NEEDS recorddata_public_input.json
+        - Reads recorddata_public_input
+            - This is a file that essentially describes what the client wants to prove
+            - Specifies a chunk of the ciphertext
+            - Check that this coincides with the policy description --> It does! check client/postprocess/record.go
+                - Here, the policy is parsed into the relevant fields
+        - Creates the circuit description "Tls13OracleWrapper" (This is a gnark gadget)
+        - Returns the circuit
+
+SEND:
+    Compiled Constraint System, generated with the Setup call
+    - TODO - pk, vk, err := groth16.Setup(ccs) --> This can be calculated by the client itself, the proxy shouldn't send the prover key.
+    - This is the only thing the client needs from the proxy! 
+    - TODO - Theoretically, this could probably also be generated locally - investigate this after communication works
+        
+Stage 2 - Prove
+- proof (bytes)
+
+
+Problems to solve:
+- The verifier currently reads the certificates from "../client/certs/certificates/ca.crt" --> Should be obtained from transcript / decrypted from HS 
+    - Currently hard coded in local implementation!
+- What is the difference between kdc_public_input.json & kdc_confirmed.json?
+- Can the verifier locally compute all values in kdc_public_input.json?
+    - These still need to be clarified, will lead to even smaller communication 

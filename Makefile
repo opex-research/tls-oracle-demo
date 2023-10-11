@@ -6,7 +6,7 @@ PROXY_SERVER ?= http://localhost:8080
 ROOT_DIR := $(shell pwd)
 circuit_directory = local_storage/circuits
 
-DEBUG ?= false
+DEBUG ?= true
 MEASURE ?= true
 
 init-submodules:
@@ -25,7 +25,7 @@ proxy:
 	@echo "--------------------------------------------"
 	@echo "--------- RUNNING THE PROXY VERIFIER  ------"
 	@echo "--------------------------------------------"
-	@cd proxy && go run main.go -debug=$(DEBUG) -measure=$(MEASURE) -listen
+	@cd proxy && go run main.go -debug=$(DEBUG) -listen
 
 .PHONY: client
 client:
