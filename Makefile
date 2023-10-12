@@ -1,7 +1,7 @@
 SERVER_DOMAIN ?= localhost
 SERVER_ENDPOINT ?= /my-btc-usdt-order
 PROXY_URL ?= localhost:8082
-PROXY_SERVER ?= http://localhost:8080 
+PROXY_SERVER ?= localhost:8080 
 
 ROOT_DIR := $(shell pwd)
 circuit_directory = local_storage/circuits
@@ -25,7 +25,7 @@ proxy:
 	@echo "--------------------------------------------"
 	@echo "--------- RUNNING THE PROXY VERIFIER  ------"
 	@echo "--------------------------------------------"
-	@cd proxy && go run main.go -debug=$(DEBUG) -listen
+	@cd proxy && go run main.go -debug=$(DEBUG) -listen -proxylistener=$(PROXY_URL) -proxyserver=$(PROXY_SERVER)
 
 .PHONY: client
 client:
