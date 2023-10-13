@@ -1,5 +1,11 @@
-SERVER_DOMAIN ?= localhost
-SERVER_ENDPOINT ?= /my-btc-usdt-order
+# SERVER_DOMAIN ?= localhost
+# SERVER_ENDPOINT ?= /my-btc-usdt-order
+# SERVER ?= local
+
+SERVER_DOMAIN ?= api-m.sandbox.paypal.com
+SERVER_ENDPOINT ?= /v2/checkout/orders
+SERVER = paypal
+
 PROXY_URL ?= localhost:8082
 PROXY_SERVER ?= localhost:8080 
 
@@ -29,6 +35,13 @@ proxy:
 
 .PHONY: client
 client:
+	@echo "--------------------------------------------"
+	@echo "--------- RUNNING THE CLIENT  --------------"
+	@echo "--------------------------------------------"
+	@cd client && go run main.go -debug=$(DEBUG) -measure=$(MEASURE) -request -server=$(SERVER) -serverdomain=$(SERVER_DOMAIN) -serverendpoint=$(SERVER_ENDPOINT) -proxylistener=$(PROXY_URL) -proxyserver=$(PROXY_SERVER) && wait
+	@cd client && go run main.go -debug=$(DEBUG) -measure=$(MEASURE) -prove -proxyserver=$(PROXY_SERVER)
+
+client-real:
 	@echo "--------------------------------------------"
 	@echo "--------- RUNNING THE CLIENT  --------------"
 	@echo "--------------------------------------------"

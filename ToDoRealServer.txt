@@ -1,0 +1,21 @@
+Goal: Extend the code, such that the client can fetch data from a real server.
+
+Server: Twitter
+
+Endpoint: https://api.twitter.com/2/users/:id/followers
+
+--> "A certain user has more than e.g. 50 followers" 
+
+Postman Workspace -- Twitter API v2
+
+
+PayPal API:
+
+Currently - hard coded access token
+
+TODO: Ask user for credentials & derive access token --> PayPal login request
+
+[X] Write functions to send request
+[X] Test functions to send request
+[] Automate generation of the access token
+[] Integrate Request and send through proxy - obtain response on the client side
