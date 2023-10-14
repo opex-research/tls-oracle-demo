@@ -13,7 +13,7 @@ ROOT_DIR := $(shell pwd)
 circuit_directory = local_storage/circuits
 
 DEBUG ?= true
-MEASURE ?= true
+MEASURE ?= false
 
 init-submodules:
 	@cd $(ROOT_DIR)/proxy && git submodule init && git submodule update

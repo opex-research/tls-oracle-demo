@@ -18,4 +18,7 @@ TODO: Ask user for credentials & derive access token --> PayPal login request
 [X] Write functions to send request
 [X] Test functions to send request
 [] Automate generation of the access token
-[] Integrate Request and send through proxy - obtain response on the client side
+[X] Integrate Request and send through proxy - obtain response on the client side
+[X] Create policy example for PayPal case 
+[X] Fix Polixy parsing with dynamic sequence number
+[] Fix hardcoded values in circuit generation - parse from policy, transcript etc
