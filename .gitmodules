@@ -4,12 +4,8 @@
 [submodule "client"]
 	path = client
 	url = https://github.com/opex-research/client
+	branch = realserver
 [submodule "proxy"]
 	path = proxy
 	url = https://github.com/opex-research/proxy
-[submodule "tls-fork"]
-	path = tls-fork
-	url = https://github.com/opex-research/tls-fork
-[submodule "tls-zkp"]
-	path = tls-zkp
-	url = https://github.com/opex-research/tls-zkp
+	branch = realserver
