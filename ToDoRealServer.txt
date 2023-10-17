@@ -22,3 +22,7 @@ TODO: Ask user for credentials & derive access token --> PayPal login request
 [X] Create policy example for PayPal case 
 [X] Fix Polixy parsing with dynamic sequence number
 [] Fix hardcoded values in circuit generation - parse from policy, transcript etc
+
+[] addCounter in prove.go is set as a fixed value. This needs to be parsed from the sequence number / record number to be proven
+[] aes_gcmm --> The sequence number needs to be XORed with the iv - this is currently hardcoded, need to pass automatically.
+[] in prove.go, the threshold needs to be parsed from the policy
