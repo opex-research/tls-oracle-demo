@@ -1,11 +1,11 @@
 [submodule "server"]
 	path = server
-	url = https://github.com/opex-research/server
+	url = git@github.com:opex-research/server.git
 [submodule "client"]
 	path = client
-	url = https://github.com/opex-research/client
+	url = git@github.com:opex-research/client.git
 	branch = realserver
 [submodule "proxy"]
 	path = proxy
-	url = https://github.com/opex-research/proxy
+	url = git@github.com:opex-research/proxy.git
 	branch = realserver
