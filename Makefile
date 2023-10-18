@@ -31,7 +31,8 @@ proxy:
 	@echo "--------------------------------------------"
 	@echo "--------- RUNNING THE PROXY VERIFIER  ------"
 	@echo "--------------------------------------------"
-	@cd proxy && go run main.go -debug=$(DEBUG) -listen -proxylistener=$(PROXY_URL) -proxyserver=$(PROXY_SERVER)
+	@SESSION_ID=$$(uuidgen) && \
+	cd proxy && go run main.go -debug=$(DEBUG) -listen -sessionid=$$SESSION_ID -proxylistener=$(PROXY_URL) -proxyserver=$(PROXY_SERVER)
 
 .PHONY: client
 client:
