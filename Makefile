@@ -55,8 +55,8 @@ client-paypal:
 	wait && \
 	go run main.go -debug=$(DEBUG) -measure=$(MEASURE) -prove -sessionid=$$SESSION_ID -proxyserver=$(PROXY_SERVER) -server=$(SERVER_PAYPAL)
 
-measure-client-paypal-50-times:
-	@for i in {1..50}; do \
+measure-client-paypal-20-times:
+	@for i in {1..20}; do \
 		echo "--------------------------------------------"; \
 		echo "--------- RUNNING CLIENT-PAYPAL RUN $$i ------"; \
 		echo "--------------------------------------------"; \
