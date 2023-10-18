@@ -45,5 +45,9 @@ client-paypal:
 	@echo "--------------------------------------------"
 	@echo "--------- RUNNING THE CLIENT  --------------"
 	@echo "--------------------------------------------"
-	@cd client && go run main.go -debug=$(DEBUG) -measure=$(MEASURE) -request -server=$(SERVER_PAYPAL) -serverdomain=$(SERVER_DOMAIN_PAYPAL) -serverendpoint=$(SERVER_ENDPOINT_PAYPAL) -proxylistener=$(PROXY_URL) -proxyserver=$(PROXY_SERVER) && wait
-	@cd client && go run main.go -debug=$(DEBUG) -measure=$(MEASURE) -prove -proxyserver=$(PROXY_SERVER) -server=$(SERVER_PAYPAL)
+	@SESSION_ID=$$(uuidgen) && \
+	cd client && \
+	go run main.go -debug=$(DEBUG) -measure=$(MEASURE) -request -sessionid=$$SESSION_ID -server=$(SERVER_PAYPAL) -serverdomain=$(SERVER_DOMAIN_PAYPAL) -serverendpoint=$(SERVER_ENDPOINT_PAYPAL) -proxylistener=$(PROXY_URL) -proxyserver=$(PROXY_SERVER) && \
+	wait && \
+	go run main.go -debug=$(DEBUG) -measure=$(MEASURE) -prove -sessionid=$$SESSION_ID -proxyserver=$(PROXY_SERVER) -server=$(SERVER_PAYPAL)
+
