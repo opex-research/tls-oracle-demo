@@ -7,7 +7,10 @@ SERVER_ENDPOINT_PAYPAL ?= /v2/checkout/orders
 SERVER_PAYPAL = paypal
 
 PROXY_URL ?= localhost:8082
-PROXY_SERVER ?= localhost:8080 
+PROXY_SERVER ?= localhost:8080
+
+PROXY_URL = 129.187.45.9:8082
+PROXY_SERVER = 129.187.45.9:8080
 
 ROOT_DIR := $(shell pwd)
 circuit_directory = local_storage/circuits
@@ -51,4 +54,12 @@ client-paypal:
 	go run main.go -debug=$(DEBUG) -measure=$(MEASURE) -request -sessionid=$$SESSION_ID -server=$(SERVER_PAYPAL) -serverdomain=$(SERVER_DOMAIN_PAYPAL) -serverendpoint=$(SERVER_ENDPOINT_PAYPAL) -proxylistener=$(PROXY_URL) -proxyserver=$(PROXY_SERVER) && \
 	wait && \
 	go run main.go -debug=$(DEBUG) -measure=$(MEASURE) -prove -sessionid=$$SESSION_ID -proxyserver=$(PROXY_SERVER) -server=$(SERVER_PAYPAL)
+
+measure-client-paypal-50-times:
+	@for i in {1..50}; do \
+		echo "--------------------------------------------"; \
+		echo "--------- RUNNING CLIENT-PAYPAL RUN $$i ------"; \
+		echo "--------------------------------------------"; \
+		$(MAKE) client-paypal; \
+	done
 
